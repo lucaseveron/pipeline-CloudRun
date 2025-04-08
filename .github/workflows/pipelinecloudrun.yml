@@ -3,7 +3,7 @@ name: GCP Cloud Run Deployment
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-deploy:
@@ -40,5 +40,5 @@ jobs:
           --region ${{ secrets.GCP_REGION }} \
           --allow-unauthenticated
 
-#testeo de pipeline
+
 
