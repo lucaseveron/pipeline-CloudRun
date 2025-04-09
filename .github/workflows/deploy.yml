@@ -38,11 +38,11 @@ jobs:
 
       - name: Build and tag the docker image
         run: |-
-          docker build --build-arg NODE_ENV=dev . --tag $REGION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REGISTRY_NAME/$APP_NAME:$GITHUB_SHA
+          docker build --build-arg NODE_ENV=dev . --tag $REGION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REGISTRY_NAME/cron-ticker:$GITHUB_SHA
 
       - name: Push the image to the Google Artifact Registry (GAR)
         run: |-
-          docker push $REGION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REGISTRY_NAME/$APP_NAME:$GITHUB_SHA
+          docker push $REGION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REGISTRY_NAME/cron-ticker:$GITHUB_SHA
 
       # - name: Build and push the Docker image
       #   run: |-
@@ -52,7 +52,7 @@ jobs:
         run: |-
           gcloud run deploy $APP_NAME \
           --region $REGION \
-          --image $REGION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REGISTRY_NAME/$APP_NAME:$GITHUB_SHA \
+          --image $REGION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REGISTRY_NAME/cron-ticker:$GITHUB_SHA \
           --platform "managed" \
           --service-account $SERVICE_ACCOUNT_EMAIL \
           --port 80 \
