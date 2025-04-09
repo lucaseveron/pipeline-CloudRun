@@ -77,7 +77,7 @@ jobs:
           --platform managed \
           --region $REGION \
           --allow-unauthenticated
-#############################33
+
 
 
 
