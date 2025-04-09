@@ -15,7 +15,6 @@ jobs:
       REGION: ${{ secrets.GCP_REGION }}
       REPO_NAME: cron-ticker
       IMAGE_NAME: cron-ticker
-      SERVICE_ACCOUNT: github-actions-deployer@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com
 
     steps:
     - name: Checkout Code
@@ -27,22 +26,6 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         export_default_credentials: true
-
-    - name: Grant IAM roles to GitHub Actions Service Account
-      run: |
-        echo "Asignando roles necesarios a $SERVICE_ACCOUNT..."
-
-        gcloud projects add-iam-policy-binding $PROJECT_ID \
-          --member="serviceAccount:$SERVICE_ACCOUNT" \
-          --role="roles/run.admin"
-
-        gcloud projects add-iam-policy-binding $PROJECT_ID \
-          --member="serviceAccount:$SERVICE_ACCOUNT" \
-          --role="roles/artifactregistry.admin"
-
-        gcloud projects add-iam-policy-binding $PROJECT_ID \
-          --member="serviceAccount:$SERVICE_ACCOUNT" \
-          --role="roles/iam.serviceAccountUser"
 
     - name: Ensure Artifact Registry Repository Exists
       run: |
@@ -77,6 +60,7 @@ jobs:
           --platform managed \
           --region $REGION \
           --allow-unauthenticated
+
 
 
 
