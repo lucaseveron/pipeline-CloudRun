@@ -29,14 +29,20 @@ jobs:
 
     - name: Ensure Artifact Registry Repository Exists
       run: |
+        SERVICE_ACCOUNT=$(echo '${{ secrets.GCP_SA_KEY }}' | jq -r '.client_email')
+
         echo "Verificando si el repositorio $REPO_NAME existe..."
         if ! gcloud artifacts repositories describe $REPO_NAME \
-            --location=$REGION --project=$PROJECT_ID > /dev/null 2>&1; then
+            --location=$REGION \
+            --project=$PROJECT_ID \
+            --account=$SERVICE_ACCOUNT > /dev/null 2>&1; then
           echo "Repositorio no existe. Creándolo..."
           gcloud artifacts repositories create $REPO_NAME \
             --repository-format=docker \
             --location=$REGION \
-            --description="Repo para imágenes de $IMAGE_NAME"
+            --description="Repo para imágenes de $IMAGE_NAME" \
+            --project=$PROJECT_ID \
+            --account=$SERVICE_ACCOUNT
         else
           echo "Repositorio ya existe. Continuando..."
         fi
@@ -60,7 +66,6 @@ jobs:
           --platform managed \
           --region $REGION \
           --allow-unauthenticated
-
 
 
 
