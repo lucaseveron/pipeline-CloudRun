@@ -7,12 +7,20 @@ on:
     branches: [master]
 
 jobs:
-
-  build:
+  build-and-push: # Or your job name
     runs-on: ubuntu-latest
     steps:
-      # ... (pasos para checkout, Node.js setup, install, build) ...
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: build-push-docker-gcp-artifact-registry-action
+      - name: Build and Push Docker Image to Artifact Registry
+        uses: japerry911/build-push-docker-gcp-artifact-registry-action@v2.4.2
+        with:
+          gcp_credentials_json: ${{ secrets.GCP_CREDENTIALS }} # IMPORTANT: Use a GitHub secret
+          dockerfile_path: Dockerfile
+      #   docker_target: your_docker_target # Replace with your actual target
+          tags: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/your-image-name:latest
+          enable_cache: true
+          # Add other necessary inputs for the japerry911 action
 
-        uses: japerry911/build-push-docker-gcp-artifact-registry-action@v2.4
+      # ... other steps ...
