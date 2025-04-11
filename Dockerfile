@@ -15,3 +15,5 @@ EXPOSE 8080
 
 # Comando para iniciar la app
 CMD ["node", "app.js"]
+
+
