@@ -26,5 +26,5 @@ jobs:
 
       - name: Build and Push
         run: |
-          docker build -t us-central1-docker.pkg.dev/pipeline-github-action/my_repo/my_app:latest .
-          docker push us-central1-docker.pkg.dev/pipeline-github-action/my_repo/my_app:latest
+          docker build -t us-central1-docker.pkg.dev/pipeline-github-action/my-repo/my_app:latest .
+          docker push us-central1-docker.pkg.dev/pipeline-github-action/my-repo/my_app:latest
