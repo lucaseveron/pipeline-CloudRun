@@ -11,7 +11,7 @@ jobs:
 
     permissions:
       contents: 'read'
-      id-token: 'write' # necesario para autenticarse con Workload Identity, si se usa en lugar de JSON
+      id-token: 'write' # necesario para autenticarse con Workload Identity, si se usa en lugar de JSO
 
     steps:
       - name: Checkout code
