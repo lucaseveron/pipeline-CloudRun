@@ -19,7 +19,7 @@ jobs:
           gcp_credentials_json: ${{ secrets.GCP_CREDENTIALS }} # IMPORTANT: Use a GitHub secret
           dockerfile_path: Dockerfile
       #   docker_target: your_docker_target # Replace with your actual target
-          tags: us-central1-docker.pkg.dev/my-repo-githubaction/my_repo/my_app:latest
+          tags: us-central1 (Iowa)-docker.pkg.dev/my-repo-githubaction/my_repo/my_app:latest
           enable_cache: true
           # Add other necessary inputs for the japerry911 action
 
