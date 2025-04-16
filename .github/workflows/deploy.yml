@@ -39,7 +39,8 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: us-central1-docker.pkg.dev/YOUR_PROJECT/YOUR_REPO/YOUR_IMAGE:latest
+          tags: us-central1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ vars.ARTIFACT_REPO }}/${{ vars.IMAGE_NAME }}:latest
+
 
       # ✅ 7. Deploy a Cloud Run
       - name: Deploy to Cloud Run
