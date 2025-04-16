@@ -47,6 +47,7 @@ jobs:
         uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: YOUR_CLOUD_RUN_SERVICE_NAME
-          image: us-central1-docker.pkg.dev/YOUR_PROJECT/YOUR_REPO/YOUR_IMAGE:latest
+          image: us-central1-docker.pkg.dev/pipeline-github-action/java-backend/spring-api:latest
+
           region: us-central1
           allow-unauthenticated: true
