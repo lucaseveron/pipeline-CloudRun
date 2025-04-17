@@ -39,3 +39,4 @@ jobs:
           service: my-app-service
           image: us-central1-docker.pkg.dev/pipeline-github-action/my-repo/my_app:latest
           region: us-central1
+# test
