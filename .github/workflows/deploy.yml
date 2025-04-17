@@ -25,15 +25,18 @@ jobs:
       - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
 
-      - name: Create Artifact Registry repo (if not exists)
+      - name: Verificar cuenta autenticada
+        run: gcloud auth list
+
+      - name: Crear repositorio Artifact Registry (si no existe)
         run: |
+          gcloud artifacts repositories describe my-repo --location=us-central1 || \
           gcloud artifacts repositories create my-repo \
             --repository-format=docker \
             --location=us-central1 \
-            --description="Repositorio Docker para GitHub Actions" \
-            --async || echo "Repositorio ya existe o no se puede crear"
+            --description="Repositorio Docker para GitHub Actions"
 
-      - name: Configure Docker to use Artifact Registry
+      - name: Configurar Docker con Artifact Registry
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
@@ -49,12 +52,24 @@ jobs:
           image: us-central1-docker.pkg.dev/pipeline-github-action/my-repo/my_app:latest
           region: us-central1
 
-      - name: Make Cloud Run service public
+      - name: Esperar que el servicio Cloud Run esté disponible
+        run: |
+          echo "Esperando 20 segundos para asegurar que Cloud Run esté listo..."
+          sleep 20
+
+      - name: Hacer pública la app (roles/run.invoker)
         run: |
           gcloud run services add-iam-policy-binding my-app-service \
             --member="allUsers" \
             --role="roles/run.invoker" \
             --region=us-central1 \
             --project=pipeline-github-action
+
+      - name: Mostrar URL del servicio
+        run: |
+          gcloud run services describe my-app-service \
+            --region=us-central1 \
+            --format="value(status.url)"
+
 
 
