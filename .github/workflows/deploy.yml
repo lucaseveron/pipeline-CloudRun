@@ -25,10 +25,13 @@ jobs:
       - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
 
-      - name: Verify Authentication (Debug)
+      - name: Create Artifact Registry repo (if not exists)
         run: |
-          gcloud auth list
-          gcloud config list
+          gcloud artifacts repositories create my-repo \
+            --repository-format=docker \
+            --location=us-central1 \
+            --description="Repositorio Docker para GitHub Actions" \
+            --async || echo "Repositorio ya existe o no se puede crear"
 
       - name: Configure Docker to use Artifact Registry
         run: |
@@ -46,4 +49,11 @@ jobs:
           image: us-central1-docker.pkg.dev/pipeline-github-action/my-repo/my_app:latest
           region: us-central1
 
+      - name: Make Cloud Run service public
+        run: |
+          gcloud run services add-iam-policy-binding my-app-service \
+            --member="allUsers" \
+            --role="roles/run.invoker" \
+            --region=us-central1 \
+            --project=pipeline-github-action
 
